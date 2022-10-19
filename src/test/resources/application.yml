@@ -1,0 +1,18 @@
+spring:
+  main:
+    banner-mode: off
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:h2:mem:data
+springdoc:
+  writerWithDefaultPrettyPrinter: true
+  writerWithOrderByKeys: true
+server.port: 8080
+torrent:
+  downloadPath: test/downloads
+  resumePath: test/resume
+  metadataPath: test/metadata
+  contentPaths: test/content
+  fileScanInterval: PT1H

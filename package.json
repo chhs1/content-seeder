@@ -1,0 +1,36 @@
+{
+  "name": "dutest",
+  "version": "0.1.0",
+  "engines": {
+    "node": "16"
+  },
+  "dependencies": {
+    "openapi-typescript-codegen": "^0.21.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.0"
+  },
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "generate:api": "openapi --input openapi.json --output ./src/main/js/client --client fetch"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@types/react": "^18.0.1",
+    "@types/react-dom": "^18.0.0",
+    "babel-loader": "^8.2.4",
+    "css-loader": "^6.7.1",
+    "cypress": "^9.5.4",
+    "ts-loader": "^9.2.8",
+    "typescript": "^4.6.3",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
+  }
+}

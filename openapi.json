@@ -1,0 +1,564 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "OpenAPI definition",
+    "version" : "v0"
+  },
+  "servers" : [ {
+    "description" : "Generated server url",
+    "url" : "http://localhost:8080"
+  } ],
+  "paths" : {
+    "/api/client/torrents" : {
+      "get" : {
+        "operationId" : "getTorrents",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/TorrentDTO"
+                  }
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "client-controller" ]
+      }
+    },
+    "/api/directories" : {
+      "get" : {
+        "operationId" : "getDirectories",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "pageable",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/Pageable"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageDirectoryDTO"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "directory-controller" ]
+      }
+    },
+    "/api/directory" : {
+      "post" : {
+        "operationId" : "postDirectory",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DirectoryInputDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DirectoryDTO"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "directory-controller" ]
+      }
+    },
+    "/api/directory/{id}" : {
+      "get" : {
+        "operationId" : "getDirectory",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DirectoryDTO"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "directory-controller" ]
+      },
+      "put" : {
+        "operationId" : "putDirectory",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DirectoryInputDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DirectoryDTO"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "directory-controller" ]
+      }
+    },
+    "/api/metadata" : {
+      "post" : {
+        "operationId" : "uploadMetadata",
+        "requestBody" : {
+          "content" : {
+            "application/x-bittorrent" : {
+              "schema" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "string",
+                  "format" : "byte"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "metadata-controller" ]
+      }
+    },
+    "/api/metadata/search/{piecesRootHex}" : {
+      "get" : {
+        "operationId" : "searchPiecesRoot",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "piecesRootHex",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "pageable",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/Pageable"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageTorrent"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "metadata-controller" ]
+      }
+    },
+    "/api/metadata/v1/{infoHashHex}" : {
+      "get" : {
+        "operationId" : "getV1Torrent",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "infoHashHex",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/x-bittorrent" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string",
+                    "format" : "byte"
+                  }
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "metadata-controller" ]
+      }
+    },
+    "/api/metadata/v2/{infoHashHex}" : {
+      "get" : {
+        "operationId" : "getV2Torrent",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "infoHashHex",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/x-bittorrent" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string",
+                    "format" : "byte"
+                  }
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "metadata-controller" ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "DirectoryDTO" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "path" : {
+            "type" : "string"
+          }
+        }
+      },
+      "DirectoryInputDTO" : {
+        "type" : "object",
+        "properties" : {
+          "path" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PageDirectoryDTO" : {
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DirectoryDTO"
+            }
+          },
+          "empty" : {
+            "type" : "boolean"
+          },
+          "first" : {
+            "type" : "boolean"
+          },
+          "last" : {
+            "type" : "boolean"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "numberOfElements" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pageable" : {
+            "$ref" : "#/components/schemas/Pageable"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sort" : {
+            "$ref" : "#/components/schemas/Sort"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "PageTorrent" : {
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Torrent"
+            }
+          },
+          "empty" : {
+            "type" : "boolean"
+          },
+          "first" : {
+            "type" : "boolean"
+          },
+          "last" : {
+            "type" : "boolean"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "numberOfElements" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pageable" : {
+            "$ref" : "#/components/schemas/Pageable"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sort" : {
+            "$ref" : "#/components/schemas/Sort"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "Pageable" : {
+        "type" : "object",
+        "properties" : {
+          "offset" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "pageNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pageSize" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "paged" : {
+            "type" : "boolean"
+          },
+          "sort" : {
+            "$ref" : "#/components/schemas/Sort"
+          },
+          "unpaged" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "Sort" : {
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          },
+          "sorted" : {
+            "type" : "boolean"
+          },
+          "unsorted" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "Torrent" : {
+        "type" : "object",
+        "properties" : {
+          "files" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TorrentFile"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "info" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "byte"
+            }
+          },
+          "pieceLength" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sha1" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "byte"
+            }
+          },
+          "sha256" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "byte"
+            }
+          }
+        }
+      },
+      "TorrentDTO" : {
+        "type" : "object",
+        "properties" : {
+          "downloadRate" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "peers" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "progress" : {
+            "type" : "number",
+            "format" : "float"
+          },
+          "seeds" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "CHECKING_FILES", "DOWNLOADING_METADATA", "DOWNLOADING", "FINISHED", "SEEDING", "CHECKING_RESUME_DATA", "UNKNOWN" ]
+          },
+          "uploadRate" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "TorrentFile" : {
+        "type" : "object",
+        "properties" : {
+          "fileIndex" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "hashes" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TorrentFileHash"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "length" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "piecesRoot" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "byte"
+            }
+          },
+          "torrent" : {
+            "$ref" : "#/components/schemas/Torrent"
+          }
+        }
+      },
+      "TorrentFileHash" : {
+        "required" : [ "hash", "length", "offset", "torrentFile" ],
+        "type" : "object",
+        "properties" : {
+          "hash" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "byte"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "length" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "offset" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "torrentFile" : {
+            "$ref" : "#/components/schemas/TorrentFile"
+          }
+        }
+      }
+    }
+  }
+}
